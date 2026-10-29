@@ -1,0 +1,4 @@
+company_name,country,materials,source_name,source_url,collected_on,authorization,record_type
+SYNTHETIC SAMPLE Alpha Metals Ltd,Example Country A,aluminum scrap,Synthetic fixture A,urn:sample:alpha,2026-01-01,synthetic_sample,synthetic
+SYNTHETIC SAMPLE Alpha Metals Limited,Example Country A,copper scrap,Synthetic fixture B,urn:sample:alpha-secondary,2026-01-02,synthetic_sample,synthetic
+SYNTHETIC SAMPLE Beta Materials Inc,Example Country B,metal ingots,Synthetic fixture C,urn:sample:beta,2026-01-01,synthetic_sample,synthetic
