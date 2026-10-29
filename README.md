@@ -46,7 +46,7 @@ The first row must contain unique column names, including all these required fie
 
 Real records require a source URL and the operator's explicit assertion of a public license or granted permission. These fields document assertions, not independently verified permission or buyer status. Confirm that source terms and applicable privacy rules permit collection and reuse; retain supporting permission evidence outside this tool. Do not import private, restricted, or unlicensed data. Public visibility alone is not authorization.
 
-This version makes **no web requests and performs no scraping**. It cannot bypass access restrictions or determine site terms. Only import lawfully obtained files from authorized sources. No actual buyer records are supplied or invented. Source URLs are stored as evidence, not visited.
+The local import command makes **no web requests and performs no scraping**. The optional discovery command performs only explicitly authorized JSON API requests (see below). It cannot bypass access restrictions or determine site terms. Only import lawfully obtained files from authorized sources. No actual buyer records are supplied or invented. Source URLs are stored as evidence, not visited.
 
 ## Processing and output
 
@@ -67,3 +67,13 @@ python -m unittest discover -s tests -v
 ```
 
 Tests use temporary files and synthetic fixtures, covering normalization, classification, deduplication, provenance retention, authorization rejection, CSV/Excel ingestion, safe Excel exports, and CLI success/error/partial-success behavior. They do not contact websites.
+
+## Phase 2: authorized buyer discovery
+
+See [discovery setup and source contract](docs/discovery.md) for the JSON API connector, authorized local JSON exports, CSV/Excel integration, public business contacts, source evidence, and documented-activity versus unconfirmed-lead labels.
+
+```sh
+python -m trade_buyer.discovery --help
+```
+
+**Live result: 0 genuine buyers collected, 0 independently verified buyers.** Candidate source documentation was blocked by the environment network policy. No live provider is enabled or claimed to work; this release completes the import/integration framework pending an accessible, permitted source. Test fixtures are not real buyer results.

@@ -1,6 +1,7 @@
 """Local authorized-file ingestion; no network collection is performed."""
 import csv
 import logging
+import re
 from datetime import date
 from pathlib import Path
 from urllib.parse import urlparse
@@ -63,7 +64,22 @@ def import_buyers(path: Path, allow_samples: bool = False) -> tuple[list[Buyer],
                 parsed = urlparse(values["source_url"])
                 if authorization == "synthetic_sample" or parsed.scheme not in {"https", "http"} or not parsed.hostname:
                     raise ValueError("real records require an HTTP(S) source and explicit authorization")
-            source = Source(values["source_name"], values["source_url"], values["collected_on"], authorization, kind)
+            optional = {field: values.get(field, "") for field in
+                        ("verified_on", "products_purchased", "business_email", "website",
+                         "buyer_evidence", "record_date", "terms_url", "permission_basis", "source_kind")}
+            for field in ("verified_on", "record_date"):
+                if optional[field]:
+                    date.fromisoformat(optional[field])
+            if optional["business_email"]:
+                if values.get("email_public", "").casefold() != "true" or not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", optional["business_email"]):
+                    raise ValueError("email must be valid and explicitly publicly listed (email_public=true)")
+            for field in ("website", "terms_url"):
+                if optional[field]:
+                    parsed = urlparse(optional[field])
+                    if parsed.scheme not in {"http", "https"} or not parsed.hostname:
+                        raise ValueError(f"invalid {field}")
+            # Legacy imports remain unconfirmed; a supplied status is never trusted.
+            source = Source(values["source_name"], values["source_url"], values["collected_on"], authorization, kind, **optional)
             buyers.append(Buyer(values["company_name"], normalized, values["country"],
                                 classify_materials(values["materials"]), [source]))
         except ValueError as error:

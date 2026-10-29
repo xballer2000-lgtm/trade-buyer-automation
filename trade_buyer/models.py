@@ -9,6 +9,16 @@ class Source:
     collected_on: str
     authorization: str
     record_type: str
+    verified_on: str = ""
+    products_purchased: str = ""
+    business_email: str = ""
+    website: str = ""
+    buyer_evidence: str = ""
+    record_date: str = ""
+    terms_url: str = ""
+    permission_basis: str = ""
+    source_kind: str = ""
+    verification_status: str = "unconfirmed_lead"
 
 
 @dataclass
